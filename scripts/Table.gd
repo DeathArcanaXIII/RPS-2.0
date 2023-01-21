@@ -1,14 +1,17 @@
 extends Node
 
 signal ENEMY_TURN()
+signal PLAYED_CARD()
 
 var scene_player_deck = preload("res://scenes/Player_Deck.tscn")
 var scene_enemy_deck = preload("res://scenes/Enemy_Deck.tscn")
 
 func delete(card_type,node):
+	Global.player_choice = card_type
 	print(card_type)
 	node.queue_free()
 	emit_signal("ENEMY_TURN")
+	emit_signal("PLAYED_CARD")
 	
 func shuffle_deck(deck): #EMBARALHA A ARRAY DO DECK
 	randomize()

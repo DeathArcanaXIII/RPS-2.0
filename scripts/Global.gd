@@ -4,6 +4,7 @@ enum {PAPER = 0, ROCK = 1, SCISSORS = 2, JOKER = 3, PLAYER_TURN, ENEMY_TURN}
 
 var state = PLAYER_TURN
 
+var player_choice
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

@@ -3,11 +3,17 @@ extends Node2D
 signal SHUFFLE()
 signal DRAW_CARD()
 signal MULLIGAN_DELETE_CARD()
+signal PLAYED_CARD()
 
 var scene_paper = preload("res://scenes/Paper_Card.tscn")
 var scene_rock = preload("res://scenes/Rock_Card.tscn")
 var scene_scissors = preload("res://scenes/Scissors_Card.tscn")
 var scene_joker = preload("res://scenes/Joker_Card.tscn")
+
+var texture_paper = preload("res://sprites/Paper.png")
+var texture_rock = preload("res://sprites/Rock.png")
+var texture_scissors = preload("res://sprites/Scissors.png")
+var texture_joker = preload("res://sprites/Joker.png")
 
 var card
 
@@ -73,6 +79,7 @@ func mulligan():#CORRIGE POSIÇÃO, EMITE SINAL DELETAR A MÃO ATUAL, MÂO PRO D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	emit_signal("SHUFFLE", player_deck)
+	$"/root/Table".connect("PLAYED_CARD", self,"_on_Player_Deck_PLAYED_CARD")
 	pass # Replace with function body.
 
 
@@ -82,6 +89,12 @@ func _process(delta):
 		emit_signal("DRAW_CARD")#CONECTADO A SI MESMO
 	pass
 
+func played_card(texture):
+	var sprite = Sprite.new()
+	sprite.texture = texture
+	sprite.scale = Vector2(0.7, 0.7)
+	sprite.set_position(Vector2(638,-200))
+	add_child(sprite)
 
 func _on_Area2D_mouse_entered():
 	mouse_over_deck = true
@@ -102,4 +115,16 @@ func _on_Mulligan_pressed():
 	if(first_mulligan == false && drawed_all_cards == true):
 		mulligan()
 		first_mulligan = true
+	pass # Replace with function body.
+
+
+func _on_Player_Deck_PLAYED_CARD():
+	if(Global.player_choice == "Paper"):
+		played_card(texture_paper)
+	elif(Global.player_choice == "Rock"):
+		played_card(texture_rock)
+	elif(Global.player_choice == "Scissors"):
+		played_card(texture_scissors)
+	elif(Global.player_choice == "Joker"):
+		played_card(texture_joker)
 	pass # Replace with function body.

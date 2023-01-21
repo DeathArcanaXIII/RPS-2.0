@@ -53,7 +53,7 @@ func create_enemy_hand(): #COLOCA A CARTA NA MÃO DO JOGADOR, FAZ UM POP DO DECK
 		elif(enemy_hand[n] == Global.JOKER):
 			create_card(texture_joker)
 	if(drawed_3 == 3):#CORRIGE O POSICIONAMENTO E HABILITA O MULLIGAN UMA UNICA VEZ
-		xAxys = 0
+		xAxys = 250
 		drawed_3 = 0
 	print("ENEMY:", enemy_hand)
 
@@ -65,7 +65,7 @@ func play_random_card():
 	Global.state = Global.PLAYER_TURN
 	print(choosed_card)
 	cards_in_hand -= 1
-	if(cards_in_hand == 0):
+	if(cards_in_hand == 0 && enemy_deck_size > 0):
 		enemy_hand = [7,7,7]
 		create_enemy_hand()
 	emit_signal("PLAYED_CARD", choosed_card)
