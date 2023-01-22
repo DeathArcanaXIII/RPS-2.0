@@ -6,10 +6,15 @@ signal PLAYED_CARD()
 var scene_player_deck = preload("res://scenes/Player_Deck.tscn")
 var scene_enemy_deck = preload("res://scenes/Enemy_Deck.tscn")
 
+var enemy_choice
+var player_choice
+
 func delete(card_type,node):
-	Global.player_choice = card_type
+	player_choice = card_type
+	Global.player_choice = player_choice
 	print(card_type)
 	node.queue_free()
+	Global.player_actual_hand -= 1
 	emit_signal("ENEMY_TURN")
 	emit_signal("PLAYED_CARD")
 	

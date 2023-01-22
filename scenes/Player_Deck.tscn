@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://sprites/Cards_Back.png" type="Texture" id=1]
 [ext_resource path="res://scripts/Player_Deck.gd" type="Script" id=2]
+[ext_resource path="res://scenes/Deck Size.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 88 )
@@ -24,6 +25,15 @@ margin_right = 34.0
 margin_bottom = -92.0
 text = "Mulligan"
 
+[node name="Deck Size" type="Label" parent="."]
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 6.0
+text = "15"
+script = ExtResource( 3 )
+
+[connection signal="DECK_SIZE" from="." to="Deck Size" method="_on_Player_Deck_DECK_SIZE"]
 [connection signal="DRAW_CARD" from="." to="." method="_on_Player_Deck_DRAW_CARD"]
 [connection signal="mouse_entered" from="Sprite/Area2D" to="." method="_on_Area2D_mouse_entered"]
 [connection signal="mouse_exited" from="Sprite/Area2D" to="." method="_on_Area2D_mouse_exited"]

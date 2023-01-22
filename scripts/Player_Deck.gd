@@ -4,6 +4,7 @@ signal SHUFFLE()
 signal DRAW_CARD()
 signal MULLIGAN_DELETE_CARD()
 signal PLAYED_CARD()
+signal DECK_SIZE()
 
 var scene_paper = preload("res://scenes/Paper_Card.tscn")
 var scene_rock = preload("res://scenes/Rock_Card.tscn")
@@ -24,14 +25,15 @@ var player_deck_size = 15
 
 var xAxys = 250
 var drawed_3 = 0
+var actual_hand = 0
 
 var first_mulligan = false
 var drawed_all_cards = false
 var mouse_over_deck = false
 
-
 func create_player_hand(): #COLOCA A CARTA NA MÃO DO JOGADOR, FAZ UM POP DO DECK, E INSTANCEIA A CARTA DA MÃO DO JOGADOR NA ORDEM 1,2,3 
 	for n in range(3):
+		Global.player_actual_hand += 1
 		player_hand[n] = player_deck[0]
 		player_deck.pop_front()
 		if(player_hand[n] == Global.PAPER):
@@ -85,8 +87,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if(Input.is_action_just_pressed("left_click") && mouse_over_deck == true && player_deck_size > 0 && Global.state == Global.PLAYER_TURN):
+	if(Input.is_action_just_pressed("left_click") && mouse_over_deck == true && player_deck_size > 0 && Global.state == Global.PLAYER_TURN && Global.player_actual_hand == 0):
 		emit_signal("DRAW_CARD")#CONECTADO A SI MESMO
+		emit_signal("DECK_SIZE", player_deck_size)
 	pass
 
 func played_card(texture):
