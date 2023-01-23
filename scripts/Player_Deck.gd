@@ -60,7 +60,6 @@ func create_card(scene):#INSTANCEIA A CENA, ADICIONA COMO FILHO, CONECTA A CARTA
 	player_deck_size -= 1
 
 func mulligan():#CORRIGE POSIÇÃO, EMITE SINAL DELETAR A MÃO ATUAL, MÂO PRO DECK, POP DA MÂO, SHUFFLE DECK, DECK PRA MÃO, POP DECK, INSTANCEIA
-	xAxys = 250
 	emit_signal("MULLIGAN_DELETE_CARD")
 	for n in range(3):
 		player_deck.push_back(player_hand[0])
@@ -76,8 +75,10 @@ func mulligan():#CORRIGE POSIÇÃO, EMITE SINAL DELETAR A MÃO ATUAL, MÂO PRO D
 			create_card(scene_scissors)
 		elif(player_hand[n] == Global.JOKER):
 			create_card(scene_joker)
-	xAxys = 250
-
+	if(drawed_3 == 3):#CORRIGE O POSICIONAMENTO E HABILITA O MULLIGAN UMA UNICA VEZ
+		xAxys = 250
+		drawed_all_cards = true
+		drawed_3 = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	emit_signal("SHUFFLE", player_deck)

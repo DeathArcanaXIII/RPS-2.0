@@ -1,10 +1,32 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Enemy_Deck.gd" type="Script" id=1]
 [ext_resource path="res://sprites/Enemy_Back.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 64, 88 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Label
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	self.text = str(\"12\")
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+
+func _on_Enemy_Deck_DECK_SIZE(size):
+	self.text = str(size)
+	pass # Replace with function body.
+
+
+func _on_Player_Deck_DECK_SIZE(size):
+	self.text = str(size)
+	pass # Replace with function body.
+"
 
 [node name="Enemy_Deck" type="Node2D"]
 script = ExtResource( 1 )
@@ -17,4 +39,12 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
 shape = SubResource( 1 )
 
+[node name="Deck_Size" type="Label" parent="."]
+margin_left = -8.0
+margin_top = -6.0
+margin_right = 32.0
+margin_bottom = 8.0
+script = SubResource( 2 )
+
+[connection signal="DECK_SIZE" from="." to="Deck_Size" method="_on_Enemy_Deck_DECK_SIZE"]
 [connection signal="PLAYED_CARD" from="." to="." method="_on_Enemy_Deck_PLAYED_CARD"]

@@ -2,6 +2,7 @@ extends Node2D
 
 signal SHUFFLE()
 signal PLAYED_CARD()
+signal DECK_SIZE()
 
 var texture_paper = preload("res://sprites/Enemy_Paper.png")
 var texture_rock = preload("res://sprites/Enemy_Rock.png")
@@ -62,6 +63,7 @@ func play_random_card():
 	var temp = randi() % enemy_hand.size()
 	var choosed_card = enemy_hand[temp]
 	enemy_hand.pop_at(temp)
+	Global.enemy_choice = choosed_card
 	Global.state = Global.PLAYER_TURN
 	print(choosed_card)
 	cards_in_hand -= 1
@@ -69,7 +71,7 @@ func play_random_card():
 		enemy_hand = [7,7,7]
 		create_enemy_hand()
 	emit_signal("PLAYED_CARD", choosed_card)
-	
+	emit_signal("DECK_SIZE", enemy_deck_size)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass

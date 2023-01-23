@@ -38,8 +38,3 @@ func _ready():
 	create_player_deck()
 	create_enemy_deck()
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
