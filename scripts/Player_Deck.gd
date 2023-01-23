@@ -5,7 +5,8 @@ signal DRAW_CARD()
 signal MULLIGAN_DELETE_CARD()
 signal PLAYED_CARD()
 signal DECK_SIZE()
-
+signal UPDATE_SCORE()
+signal EMPTY_DECK()
 var scene_paper = preload("res://scenes/Paper_Card.tscn")
 var scene_rock = preload("res://scenes/Rock_Card.tscn")
 var scene_scissors = preload("res://scenes/Scissors_Card.tscn")
@@ -91,6 +92,8 @@ func _process(delta):
 	if(Input.is_action_just_pressed("left_click") && mouse_over_deck == true && player_deck_size > 0 && Global.state == Global.PLAYER_TURN && Global.player_actual_hand == 0):
 		emit_signal("DRAW_CARD")#CONECTADO A SI MESMO
 		emit_signal("DECK_SIZE", player_deck_size)
+	if(player_deck_size == 0 && Global.player_actual_hand == 0):
+		emit_signal("EMPTY_DECK")
 	pass
 
 func played_card(texture):
@@ -118,17 +121,19 @@ func _on_Player_Deck_DRAW_CARD():
 func _on_Mulligan_pressed():
 	if(first_mulligan == false && drawed_all_cards == true):
 		mulligan()
+		Global.score_enemy += 1
+		emit_signal("UPDATE_SCORE")
 		first_mulligan = true
 	pass # Replace with function body.
 
 
 func _on_Player_Deck_PLAYED_CARD():
-	if(Global.player_choice == "Paper"):
+	if(Global.player_choice == Global.PAPER):
 		played_card(texture_paper)
-	elif(Global.player_choice == "Rock"):
+	elif(Global.player_choice == Global.ROCK):
 		played_card(texture_rock)
-	elif(Global.player_choice == "Scissors"):
+	elif(Global.player_choice == Global.SCISSORS):
 		played_card(texture_scissors)
-	elif(Global.player_choice == "Joker"):
+	elif(Global.player_choice == Global.JOKER):
 		played_card(texture_joker)
 	pass # Replace with function body.

@@ -2,7 +2,7 @@ extends Sprite
 
 signal CARD_SELECTED()
 
-var card_type = "Rock"
+var card_type = Global.ROCK
 var node = self
 var mouse_over_rock = false
 # Called when the node enters the scene tree for the first time.

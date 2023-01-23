@@ -2,7 +2,7 @@ extends Sprite
 
 signal CARD_SELECTED()
 
-var card_type = "Scissors"
+var card_type = Global.SCISSORS
 var node = self
 var mouse_over_scissors = false
 # Called when the node enters the scene tree for the first time.

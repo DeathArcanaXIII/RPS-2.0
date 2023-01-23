@@ -2,7 +2,7 @@ extends Sprite
 
 signal CARD_SELECTED()
 
-var card_type = "Joker"
+var card_type = Global.JOKER
 var node = self
 var mouse_over_joker = false
 # Called when the node enters the scene tree for the first time.
