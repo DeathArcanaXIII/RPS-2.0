@@ -31,6 +31,7 @@ var actual_hand = 0
 var first_mulligan = false
 var drawed_all_cards = false
 var mouse_over_deck = false
+var stop_delta = false
 
 func create_player_hand(): #COLOCA A CARTA NA MÃO DO JOGADOR, FAZ UM POP DO DECK, E INSTANCEIA A CARTA DA MÃO DO JOGADOR NA ORDEM 1,2,3 
 	for n in range(3):
@@ -63,6 +64,7 @@ func create_card(scene):#INSTANCEIA A CENA, ADICIONA COMO FILHO, CONECTA A CARTA
 func mulligan():#CORRIGE POSIÇÃO, EMITE SINAL DELETAR A MÃO ATUAL, MÂO PRO DECK, POP DA MÂO, SHUFFLE DECK, DECK PRA MÃO, POP DECK, INSTANCEIA
 	emit_signal("MULLIGAN_DELETE_CARD")
 	for n in range(3):
+		player_deck_size += 1
 		player_deck.push_back(player_hand[0])
 		player_hand.pop_front()
 		emit_signal("SHUFFLE", player_deck)
@@ -92,7 +94,8 @@ func _process(delta):
 	if(Input.is_action_just_pressed("left_click") && mouse_over_deck == true && player_deck_size > 0 && Global.state == Global.PLAYER_TURN && Global.player_actual_hand == 0):
 		emit_signal("DRAW_CARD")#CONECTADO A SI MESMO
 		emit_signal("DECK_SIZE", player_deck_size)
-	if(player_deck_size == 0 && Global.player_actual_hand == 0):
+	if(player_deck_size == 0 && Global.player_actual_hand == 0 && stop_delta == false):
+		stop_delta = true
 		emit_signal("EMPTY_DECK")
 	pass
 

@@ -2,7 +2,7 @@ extends Label
 
 func declare_winner():
 	if(Global.score_enemy == Global.score_player):
-		print("TESTE")
+		print("Empate")
 		self.text = str("Empate")
 	elif(Global.score_enemy > Global.score_player):
 		print("Derrota")
