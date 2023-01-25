@@ -7,7 +7,7 @@ var state = PLAYER_TURN
 var player_choice 
 var enemy_choice
 
-var score_player = 5
+var score_player = 0
 var score_enemy = 0
 
 var player_actual_hand = 0
