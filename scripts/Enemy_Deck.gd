@@ -30,6 +30,7 @@ func _ready():
 	emit_signal("SHUFFLE", enemy_deck)
 	create_enemy_hand()
 	$"/root/Table".connect("ENEMY_TURN", self, "play_random_card")
+	$"/root/Table".connect("ENEMY_TURN_STRONGEST_PLAY", self, "_play_strongest_card")
 	pass # Replace with function body.
 
 func create_card(texture):#INSTANCEIA A CENA, ADICIONA COMO FILHO, CONECTA A CARTA, POSICIONA A CENA
@@ -59,6 +60,53 @@ func create_enemy_hand(): #COLOCA A CARTA NA MÃO DO JOGADOR, FAZ UM POP DO DECK
 		xAxys = 250
 		drawed_3 = 0
 	print("ENEMY:", enemy_hand)
+
+func _enemy_pick(card, texture):
+	Global.enemy_choice = card
+	Global.state = Global.CHECK_WINNER
+	cards_in_hand -= 1
+	enemy_hand.pop_at(enemy_hand.find(card))
+	played_card(texture)
+	if(cards_in_hand == 0 && enemy_deck_size > 0):
+		enemy_hand = [7,7,7]
+		create_enemy_hand()
+	emit_signal("CHECK_WINNER")
+	emit_signal("DECK_SIZE", enemy_deck_size)
+
+func _play_strongest_card():
+	if(Global.player_choice == Global.JOKER):
+		play_random_card()
+
+	elif(Global.player_choice == Global.PAPER):
+		if(Global.SCISSORS in enemy_hand):
+			_enemy_pick(Global.SCISSORS, texture_scissors)
+		elif(Global.JOKER in enemy_hand):
+			_enemy_pick(Global.JOKER, texture_joker)
+		elif(Global.PAPER in enemy_hand):
+			_enemy_pick(Global.PAPER, texture_paper)
+		elif(Global.ROCK in enemy_hand):
+			_enemy_pick(Global.ROCK, texture_rock)
+
+	elif(Global.player_choice == Global.ROCK):
+		if(Global.PAPER in enemy_hand):
+			_enemy_pick(Global.PAPER, texture_paper)
+		elif(Global.JOKER in enemy_hand):
+			_enemy_pick(Global.JOKER, texture_joker)
+		elif(Global.ROCK in enemy_hand):
+			_enemy_pick(Global.ROCK, texture_rock)
+		elif(Global.SCISSORS in enemy_hand):
+			_enemy_pick(Global.SCISSORS, texture_scissors)
+
+	elif(Global.player_choice == Global.SCISSORS):
+		if(Global.ROCK in enemy_hand):
+			_enemy_pick(Global.ROCK, texture_rock)
+		elif(Global.JOKER in enemy_hand):
+			_enemy_pick(Global.JOKER, texture_joker)
+		elif(Global.SCISSORS in enemy_hand):
+			_enemy_pick(Global.SCISSORS, texture_scissors)
+		elif(Global.PAPER in enemy_hand):
+			_enemy_pick(Global.PAPER, texture_paper)
+			
 
 func play_random_card():
 	randomize()

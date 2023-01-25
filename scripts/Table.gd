@@ -2,7 +2,7 @@ extends Node
 
 signal ENEMY_TURN()
 signal PLAYED_CARD()
-
+signal ENEMY_TURN_STRONGEST_PLAY()
 var scene_player_deck = preload("res://scenes/Player_Deck.tscn")
 var scene_enemy_deck = preload("res://scenes/Enemy_Deck.tscn")
 
@@ -15,7 +15,10 @@ func delete(card_type,node):
 	print(card_type)
 	node.queue_free()
 	Global.player_actual_hand -= 1
-	emit_signal("ENEMY_TURN")
+	if(Global.score_enemy >= Global.score_player):
+		emit_signal("ENEMY_TURN")
+	elif(Global.score_enemy < Global.score_player):
+		emit_signal("ENEMY_TURN_STRONGEST_PLAY")
 	emit_signal("PLAYED_CARD")
 	
 func shuffle_deck(deck): #EMBARALHA A ARRAY DO DECK

@@ -97,6 +97,7 @@ func _process(delta):
 	if(player_deck_size == 0 && Global.player_actual_hand == 0 && stop_delta == false):
 		stop_delta = true
 		emit_signal("EMPTY_DECK")
+	
 	pass
 
 func played_card(texture):
@@ -122,7 +123,7 @@ func _on_Player_Deck_DRAW_CARD():
 
 
 func _on_Mulligan_pressed():
-	if(first_mulligan == false && drawed_all_cards == true):
+	if(first_mulligan == false && drawed_all_cards == true && Global.player_actual_hand == 3):
 		mulligan()
 		Global.score_enemy += 1
 		emit_signal("UPDATE_SCORE")
