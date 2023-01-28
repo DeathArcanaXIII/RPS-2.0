@@ -20,12 +20,6 @@ func _on_Start_Game_pressed():
 	get_tree().change_scene("res://scenes/Table.tscn")
 	pass # Replace with function body.
 
-
-func _on_Help_pressed():
-	$VBoxContainer.hide()
-	pass # Replace with function body.
-
-
 func _on_Exit_pressed():
 	get_tree().quit()
 	pass # Replace with function body.

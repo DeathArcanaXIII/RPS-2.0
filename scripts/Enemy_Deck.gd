@@ -31,6 +31,8 @@ func _ready():
 	create_enemy_hand()
 	$"/root/Table".connect("ENEMY_TURN", self, "play_random_card")
 	$"/root/Table".connect("ENEMY_TURN_STRONGEST_PLAY", self, "_play_strongest_card")
+	$"/root/Table".connect("ENEMY_TURN_PAPER_LOVER", self, "_play_paper")
+	$"/root/Table".connect("ENEMY_TURN_HOLD_JOKER", self, "_hold_joker")
 	pass # Replace with function body.
 
 func create_card(texture):#INSTANCEIA A CENA, ADICIONA COMO FILHO, CONECTA A CARTA, POSICIONA A CENA
@@ -72,6 +74,22 @@ func _enemy_pick(card, texture):
 		create_enemy_hand()
 	emit_signal("CHECK_WINNER")
 	emit_signal("DECK_SIZE", enemy_deck_size)
+
+func _hold_joker():
+	if(Global.SCISSORS in enemy_hand):
+		_enemy_pick(Global.SCISSORS, texture_scissors)
+	elif(Global.PAPER in enemy_hand):
+		_enemy_pick(Global.PAPER, texture_paper)
+	elif(Global.ROCK in enemy_hand):
+		_enemy_pick(Global.ROCK, texture_rock)
+	else:
+		_enemy_pick(Global.JOKER, texture_joker)
+
+func _play_paper():
+	if(Global.PAPER in enemy_hand):
+		_enemy_pick(Global.PAPER, texture_paper)
+	else:
+		play_random_card()
 
 func _play_strongest_card():
 	if(Global.player_choice == Global.JOKER):
@@ -115,7 +133,6 @@ func play_random_card():
 	enemy_hand.pop_at(temp)
 	Global.enemy_choice = choosed_card
 	Global.state = Global.CHECK_WINNER
-	print(choosed_card)
 	cards_in_hand -= 1
 	if(cards_in_hand == 0 && enemy_deck_size > 0):
 		enemy_hand = [7,7,7]

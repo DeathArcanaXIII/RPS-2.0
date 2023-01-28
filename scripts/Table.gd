@@ -3,22 +3,37 @@ extends Node
 signal ENEMY_TURN()
 signal PLAYED_CARD()
 signal ENEMY_TURN_STRONGEST_PLAY()
+signal ENEMY_TURN_PAPER_LOVER()
+signal ENEMY_TURN_HOLD_JOKER()
+
+
 var scene_player_deck = preload("res://scenes/Player_Deck.tscn")
 var scene_enemy_deck = preload("res://scenes/Enemy_Deck.tscn")
 
 var enemy_choice
 var player_choice
 
+var ai_chooser
+
+func _ai_chooser():
+	randomize()
+	ai_chooser = randi() % Global.AI.size()
+	print(ai_chooser)
+
 func delete(card_type,node):
 	player_choice = card_type
 	Global.player_choice = player_choice
-	print(card_type)
 	node.queue_free()
 	Global.player_actual_hand -= 1
-	if(Global.score_enemy >= Global.score_player):
+	if(ai_chooser == Global.AI.PASSIVE):
 		emit_signal("ENEMY_TURN")
-	elif(Global.score_enemy < Global.score_player):
+	elif(ai_chooser == Global.AI.AGRESSIVE):
 		emit_signal("ENEMY_TURN_STRONGEST_PLAY")
+	elif(ai_chooser == Global.AI.PAPER_LOVER):
+		emit_signal("ENEMY_TURN_PAPER_LOVER")
+	else:
+		emit_signal("ENEMY_TURN_HOLD_JOKER")
+
 	emit_signal("PLAYED_CARD")
 	
 func shuffle_deck(deck): #EMBARALHA A ARRAY DO DECK
@@ -67,6 +82,7 @@ func check_winner():
 		Global.state = Global.PLAYER_TURN
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	_ai_chooser()
 	create_player_deck()
 	create_enemy_deck()
 	$Enemy_Deck.connect("CHECK_WINNER", $Check_Winner, "check_winner")

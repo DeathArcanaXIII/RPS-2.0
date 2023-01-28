@@ -2,6 +2,8 @@ extends Node
 
 enum {PAPER = 0, ROCK = 1, SCISSORS = 2, JOKER = 3, PLAYER_TURN, ENEMY_TURN, CHECK_WINNER}
 
+enum AI {AGRESSIVE, PASSIVE, PAPER_LOVER, HOLD_JOKER}
+
 var state = PLAYER_TURN
 
 var player_choice 

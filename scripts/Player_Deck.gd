@@ -124,6 +124,7 @@ func _on_Player_Deck_DRAW_CARD():
 
 func _on_Mulligan_pressed():
 	if(first_mulligan == false && drawed_all_cards == true && Global.player_actual_hand == 3):
+		$Mulligan.hide()
 		mulligan()
 		Global.score_enemy += 1
 		emit_signal("UPDATE_SCORE")
