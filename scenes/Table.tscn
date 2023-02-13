@@ -41,5 +41,6 @@ margin_right = 661.0
 margin_bottom = 238.0
 script = ExtResource( 6 )
 
+[connection signal="PLAYED_CARD" from="." to="." method="_on_Table_PLAYED_CARD"]
 [connection signal="SCORE" from="Check_Winner" to="Score_Player" method="_on_Check_Winner_SCORE"]
 [connection signal="SCORE" from="Check_Winner" to="Score_Enemy" method="_on_Check_Winner_SCORE"]

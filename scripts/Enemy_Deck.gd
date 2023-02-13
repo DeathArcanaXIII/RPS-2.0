@@ -18,7 +18,7 @@ var enemy_deck_size = 15
 var cards_in_hand = 0
 
 var drawed_3 = 0
-
+var card
 
 var drawed_all_cards = false
 var mouse_over_deck = false
@@ -33,10 +33,13 @@ func _ready():
 	$"/root/Table".connect("ENEMY_TURN_STRONGEST_PLAY", self, "_play_strongest_card")
 	$"/root/Table".connect("ENEMY_TURN_PAPER_LOVER", self, "_play_paper")
 	$"/root/Table".connect("ENEMY_TURN_HOLD_JOKER", self, "_hold_joker")
+	$"/root/Table".connect("ENEMY_TURN_ROCK_LOVER", self, "_play_rock")
+	$"/root/Table".connect("ENEMY_TURN_SCISSOR_LOVER", self, "_play_scissors")
 	pass # Replace with function body.
 
+
 func create_card(texture):#INSTANCEIA A CENA, ADICIONA COMO FILHO, CONECTA A CARTA, POSICIONA A CENA
-	var card = Sprite.new()
+	card = Sprite.new()
 	card.texture = texture
 	add_child(card)
 	card.connect("CARD_SELECTED", $"/root/Table", "delete")
@@ -58,7 +61,7 @@ func create_enemy_hand(): #COLOCA A CARTA NA MÃO DO JOGADOR, FAZ UM POP DO DECK
 			create_card(texture_scissors)
 		elif(enemy_hand[n] == Global.JOKER):
 			create_card(texture_joker)
-	if(drawed_3 == 3):#CORRIGE O POSICIONAMENTO E HABILITA O MULLIGAN UMA UNICA VEZ
+	if(drawed_3 == 3):#CORRIGE O POSICIONAMENTO AO COMPRAR 3 CARTAS
 		xAxys = 250
 		drawed_3 = 0
 	print("ENEMY:", enemy_hand)
@@ -74,6 +77,18 @@ func _enemy_pick(card, texture):
 		create_enemy_hand()
 	emit_signal("CHECK_WINNER")
 	emit_signal("DECK_SIZE", enemy_deck_size)
+
+func _play_scissors():
+	if(Global.SCISSORS in enemy_hand):
+		_enemy_pick(Global.SCISSORS, texture_scissors)
+	else:
+		play_random_card()
+
+func _play_rock():
+	if(Global.ROCK in enemy_hand):
+		_enemy_pick(Global.ROCK, texture_rock)
+	else:
+		play_random_card()
 
 func _hold_joker():
 	if(Global.SCISSORS in enemy_hand):
