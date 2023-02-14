@@ -99,6 +99,9 @@ func _ready():
 
 func _on_Table_PLAYED_CARD():
 	_ai_chooser_signals()
+	_change_ai()
+
+func _change_ai():	
 	numberOfPlayedCards += 1
 	if(numberOfPlayedCards == 3):
 		_ai_chooser()
