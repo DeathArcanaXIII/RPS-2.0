@@ -84,7 +84,7 @@ func mulligan():#CORRIGE POSIÇÃO, EMITE SINAL DELETAR A MÃO ATUAL, MÂO PRO D
 		drawed_3 = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	emit_signal("SHUFFLE", player_deck)
+	emit_signal("SHUFFLE", player_deck) #Emite um sinal para embaralhar o deck do jogador
 	$"/root/Table".connect("PLAYED_CARD", self,"_on_Player_Deck_PLAYED_CARD")
 	pass # Replace with function body.
 
@@ -97,7 +97,6 @@ func _process(delta):
 	if(player_deck_size == 0 && Global.player_actual_hand == 0 && stop_delta == false):
 		stop_delta = true
 		emit_signal("EMPTY_DECK")
-	
 	pass
 
 func played_card(texture):

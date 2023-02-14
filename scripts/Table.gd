@@ -16,6 +16,8 @@ var player_choice
 
 var ai_chooser
 
+var numberOfPlayedCards = 0
+
 func _ai_chooser():
 	randomize()
 	ai_chooser = randi() % Global.AI.size()
@@ -96,6 +98,14 @@ func _ready():
 
 
 func _on_Table_PLAYED_CARD():
+	_ai_chooser_signals()
+	numberOfPlayedCards += 1
+	if(numberOfPlayedCards == 3):
+		_ai_chooser()
+		numberOfPlayedCards = 0
+	print("Played Cards: ",numberOfPlayedCards)
+
+func _ai_chooser_signals():
 	if(ai_chooser == Global.AI.PASSIVE):
 		emit_signal("ENEMY_TURN")
 	elif(ai_chooser == Global.AI.AGRESSIVE):
